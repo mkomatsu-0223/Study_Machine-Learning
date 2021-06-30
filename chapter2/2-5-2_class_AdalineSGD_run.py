@@ -181,7 +181,7 @@ def plot_decision_regions(X, y, classifier, resolution=0.02):
 # ----------------------
 # 2-2-2_get_iris_data.py
 # ----------------------
-s = './data/iris.data'
+s = '../data/iris.data'
 df = pd.read_csv(s, header=None, encoding='utf-8')
 
 # ----------------------
