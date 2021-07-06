@@ -8,8 +8,6 @@ import numpy as np
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import Perceptron
-from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 
@@ -119,8 +117,8 @@ def plot_decision_regions(X, y, classifier, test_idx=None, resolution=0.02):
     if test_idx:
         # すべてのデータ点をプロット
         X_test, y_test = X[test_idx, :], y[test_idx]
-        plt.scatter(X_test[:, 0], X_test[:, 1], c='', edgecolors='black',
-                    alpha=1.0, linewidths=1, marker='o', s=100,
+        plt.scatter(X_test[:, 0], X_test[:, 1], c='y', edgecolors='black',
+                    alpha=0.3, linewidths=1, marker='o', s=100,
                     label='test set')
 
 
@@ -156,7 +154,8 @@ lrgd = LogisticRegressionGD(eta=0.05, n_iter=1000, random_state=1)
 # モデルを訓練データに適合させる
 lrgd.fit(X_train_01_subset, y_train_01_subset)
 # 決定領域をプロット
-plot_decision_regions(X=X_train_01_subset, y=y_train_01_subset, classifier=lrgd)
+plot_decision_regions(X=X_train_01_subset, y=y_train_01_subset,
+                      classifier=lrgd)
 plt.xlabel('petal length [standardized]')
 plt.ylabel('petal width [standardized]')
 plt.legend(loc='upper left')

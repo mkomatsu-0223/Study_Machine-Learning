@@ -8,8 +8,7 @@ import numpy as np
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import Perceptron
-from sklearn.metrics import accuracy_score
+from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 
@@ -56,21 +55,10 @@ X = iris.data[:, [2, 3]]
 # クラスラベルを取得
 y = iris.target
 
-# 一意なクラスラベルを出力
-print('Class labels:', np.unique(y))
-
 # 訓練データとテストデータに分割
 # 全体の３０％をテストデータに
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=1, stratify=y)
-
-# P.51 分割の確認
-# 上記'Class lavels'でyには[0, 1, 2]だけが格納されていることを確認した。
-# 分割後の[0, 1, 2]の配分を見てみる。
-print('Label counts in y:', np.bincount(y))
-print('Label counts in y_train:', np.bincount(y_train))
-print('Label counts in y_test:', np.bincount(y_test))
-
 
 # P.51 特徴量を標準化
 sc = StandardScaler()
@@ -82,29 +70,20 @@ sc.fit(X_train)
 X_train_std = sc.transform(X_train)
 X_test_std = sc.transform(X_test)
 
-# エポック数40、学習率0.1でパーセプトロンのインスタンスを生成
-ppn = Perceptron(eta0=0.1, random_state=1)
-# 訓練データをモデルに適合させる
-ppn.fit(X_train_std, y_train)
-
-# テストデータで予測を実施
-y_pred = ppn.predict(X_test_std)
-# 誤分類のデータ点の個数を表示
-print('Misclassified examples: %d' % (y_test != y_pred).sum())
-# 分類器の正解率を表示
-print('Accuracy: %.3f' % accuracy_score(y_test, y_pred))
-# 分類器の正解率を表示:記述的な
-print('Accuracy2: %.3f' % ppn.score(X_test_std, y_test))
-
-
 # 訓練データとテストデータの特徴量を行方向に結合
 X_combined_std = np.vstack((X_train_std, X_test_std))
 # 訓練データとテストデータのクラスラベルを結合
 y_combined_std = np.hstack((y_train, y_test))
-# 決定境界のプロット
-plot_decision_regions(X=X_combined_std, y=y_combined_std, classifier=ppn,
+
+# ロジスティック回帰のインスタンスを生成
+lr = LogisticRegression(C=100.0, random_state=1, solver='lbfgs',
+                        multi_class='ovr')
+# 訓練データをモデルに適合させる
+lr.fit(X_train_std, y_train)
+# 決定領域をプロット
+plot_decision_regions(X_combined_std, y_combined_std, classifier=lr,
                       test_idx=range(105, 150))
-# 軸ラベルの決定
+# 軸ラベルを追加
 plt.xlabel('petal length [standardized]')
 plt.ylabel('petal width [standardized]')
 # 凡例の設定（左上に配置）
@@ -112,3 +91,6 @@ plt.legend(loc='upper left')
 # グラフを表示
 plt.tight_layout()
 plt.show()
+
+# temp = lr.predict(X_test_std[0, :].reshape(1, -1))
+# print(temp)
