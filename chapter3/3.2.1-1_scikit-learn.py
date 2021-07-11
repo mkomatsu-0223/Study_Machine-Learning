@@ -100,9 +100,9 @@ print('Accuracy2: %.3f' % ppn.score(X_test_std, y_test))
 # 訓練データとテストデータの特徴量を行方向に結合
 X_combined_std = np.vstack((X_train_std, X_test_std))
 # 訓練データとテストデータのクラスラベルを結合
-y_combined_std = np.hstack((y_train, y_test))
+y_combined = np.hstack((y_train, y_test))
 # 決定境界のプロット
-plot_decision_regions(X=X_combined_std, y=y_combined_std, classifier=ppn,
+plot_decision_regions(X=X_combined_std, y=y_combined, classifier=ppn,
                       test_idx=range(105, 150))
 # 軸ラベルの決定
 plt.xlabel('petal length [standardized]')

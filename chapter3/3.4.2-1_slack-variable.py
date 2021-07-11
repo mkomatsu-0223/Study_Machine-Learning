@@ -73,7 +73,7 @@ X_test_std = sc.transform(X_test)
 # 訓練データとテストデータの特徴量を行方向に結合
 X_combined_std = np.vstack((X_train_std, X_test_std))
 # 訓練データとテストデータのクラスラベルを結合
-y_combined_std = np.hstack((y_train, y_test))
+y_combined = np.hstack((y_train, y_test))
 
 
 # 線形SVMのインスタンスを生成
@@ -82,7 +82,7 @@ svm = SVC(kernel='linear', C=1.0, random_state=1)
 svm.fit(X_train_std, y_train)
 
 # 決定領域をプロット
-plot_decision_regions(X_combined_std, y_combined_std, classifier=svm,
+plot_decision_regions(X_combined_std, y_combined, classifier=svm,
                       test_idx=range(105, 150))
 # 軸ラベルを追加
 plt.xlabel('petal length [standardized]')
