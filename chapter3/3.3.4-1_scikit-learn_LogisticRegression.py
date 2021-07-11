@@ -73,7 +73,7 @@ X_test_std = sc.transform(X_test)
 # 訓練データとテストデータの特徴量を行方向に結合
 X_combined_std = np.vstack((X_train_std, X_test_std))
 # 訓練データとテストデータのクラスラベルを結合
-y_combined_std = np.hstack((y_train, y_test))
+y_combined = np.hstack((y_train, y_test))
 
 # ロジスティック回帰のインスタンスを生成
 lr = LogisticRegression(C=100.0, random_state=1, solver='lbfgs',
@@ -81,7 +81,7 @@ lr = LogisticRegression(C=100.0, random_state=1, solver='lbfgs',
 # 訓練データをモデルに適合させる
 lr.fit(X_train_std, y_train)
 # 決定領域をプロット
-plot_decision_regions(X_combined_std, y_combined_std, classifier=lr,
+plot_decision_regions(X_combined_std, y_combined, classifier=lr,
                       test_idx=range(105, 150))
 # 軸ラベルを追加
 plt.xlabel('petal length [standardized]')

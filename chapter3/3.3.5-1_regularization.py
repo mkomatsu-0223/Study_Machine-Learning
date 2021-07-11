@@ -39,7 +39,7 @@ X_test_std = sc.transform(X_test)
 # 訓練データとテストデータの特徴量を行方向に結合
 X_combined_std = np.vstack((X_train_std, X_test_std))
 # 訓練データとテストデータのクラスラベルを結合
-y_combined_std = np.hstack((y_train, y_test))
+y_combined = np.hstack((y_train, y_test))
 
 
 # 空のリストを生成(重み係数、逆正則化パラメータ)
